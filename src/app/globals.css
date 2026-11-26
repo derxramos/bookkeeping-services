@@ -1,0 +1,551 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  Design tokens. Source: docs/DESIGN_SYSTEM.md sections 2 and 3.
+  Do not add new colors, sizes or radius values here without changing that file first.
+*/
+
+/* ---------- Section 2: color variables (Teal Ledger is the default) ---------- */
+:root,
+[data-theme="light"] {
+  --surface: #ffffff;
+  --surface-subtle: #f6f7f5;
+  --surface-sunken: #eceeea;
+  --border: #e2e5e1;
+  --input-border: #7f8b88;
+  --text: #121c1b;
+  --text-muted: #4c5957;
+  --primary: #0b6158;
+  --primary-hover: #084d46;
+  --primary-soft: #e3f2ef;
+  --primary-ink: #08463f;
+  --on-primary: #ffffff;
+  --brand-accent: #ff7b47;
+  --brand-accent-soft: #ffe8dc;
+  --brand-accent-ink: #8f3410;
+  --on-brand-accent: #2b1305;
+  /* The one orange button (the "accent" variant). Dark orange with white text: 5.2 to 1 at rest and 7.3 to 1 on hover, above the 4.5 to 1 rule. Same in day and night mode. The focus ring is the brand teal (--ring). */
+  --cta: #c2410c;
+  --cta-hover: #9a3412;
+  --on-cta: #ffffff;
+  --highlight: #ffd23f;
+  --on-highlight: #2a2100;
+  --success: #167a47;
+  --success-soft: #dff3e7;
+  --success-ink: #0f5a33;
+  --on-success: #ffffff;
+  --warning: #f5a524;
+  --warning-soft: #fff1d6;
+  --warning-ink: #7a4a00;
+  --on-warning: #2b1a00;
+  --danger: #c62f2f;
+  --danger-soft: #fce4e4;
+  --danger-ink: #8f1d1d;
+  --on-danger: #ffffff;
+  --info: #1f62b4;
+  --info-soft: #e1eefb;
+  --info-ink: #174c8c;
+  --on-info: #ffffff;
+  --ring: #0b6158;
+  --overlay: #0f1b1a99;
+  --status-draft-bg: #eceeea;
+  --status-draft-fg: #3f4b49;
+  --status-submitted-bg: #e1eefb;
+  --status-submitted-fg: #174c8c;
+  --status-payment-submitted-bg: #ede6fb;
+  --status-payment-submitted-fg: #4a2c99;
+  --status-under-review-bg: #fff1d6;
+  --status-under-review-fg: #7a4a00;
+  --status-waiting-for-client-bg: #ffe8dc;
+  --status-waiting-for-client-fg: #8f3410;
+  --status-in-progress-bg: #daf1ee;
+  --status-in-progress-fg: #08463f;
+  --status-completed-bg: #dff3e7;
+  --status-completed-fg: #0f5a33;
+  --status-cancelled-bg: #fce4e4;
+  --status-cancelled-fg: #8f1d1d;
+  /* The 9th status. Lime green: different from Completed (mint) and In progress (teal). Text contrast about 7 to 1. */
+  --status-payment-verified-bg: #eaf3cf;
+  --status-payment-verified-fg: #3f5b0a;
+  /* Home page hero picture (src/components/public/hero-art.tsx). Static colors only. */
+  --hero-card: #ffffff;
+  --hero-card-border: #e3e8e5;
+  --hero-card-border-top: #e3e8e5;
+  --hero-badge-bg: #daf1ee;
+  --hero-badge-fg: #0b5c52;
+  --hero-verified-fg: #14532d;
+  --hero-check-bg: #dcfce7;
+  --hero-check-fg: #15803d;
+  --hero-line-1: #e6eae7;
+  --hero-line-2: #eef1ef;
+  --hero-peach: #ffe8dc;
+  --hero-teal: #e3f2ef;
+  --hero-dot: #ffd23f;
+  /* The small orange bar behind the Verified card. Day mode: the solid card hides it, so nothing changes. */
+  --hero-bar: var(--brand-accent);
+}
+
+/* Alternative palette "Harbor Navy". Only the values that differ. */
+[data-theme="alt"] {
+  --surface: #ffffff;
+  --surface-subtle: #f5f7fb;
+  --surface-sunken: #e8ecf3;
+  --border: #e0e5ee;
+  --input-border: #7b879b;
+  --text: #0f1a2e;
+  --text-muted: #4a5670;
+  --primary: #17386b;
+  --primary-hover: #112b52;
+  --primary-soft: #e6ecf6;
+  --primary-ink: #0f2a52;
+  --on-primary: #ffffff;
+  --brand-accent: #00b386;
+  --brand-accent-soft: #d9f5ec;
+  --brand-accent-ink: #006b50;
+  --on-brand-accent: #032b20;
+  --highlight: #ffb400;
+  --on-highlight: #2a1c00;
+  --ring: #17386b;
+  --overlay: #0f1a2e99;
+}
+
+/*
+  Night mode "Teal Ledger Night". Same roles as the light palette, new values. Docs: docs/DESIGN_SYSTEM.md section 2b.
+  Rules used: the page is the darkest layer, cards are a little lighter, text is soft white (not pure white),
+  the brand teal and orange get lighter so they stay readable on dark, and every text pair is at least 4.5 to 1
+  (checked by tests/unit/dark-palette.test.ts). The yellow dot, the orange button and QR pictures keep their colors.
+*/
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #0f1a18;
+  --surface-subtle: #0b1413;
+  --surface-sunken: #1a2a28;
+  --card: #1a2c2a;
+  --popover: #1a2c2a;
+  --border: #2c403d;
+  --input-border: #6f8480;
+  --text: #e6efed;
+  --text-muted: #a2b4b0;
+  --primary: #3db8a7;
+  --primary-hover: #5acbbb;
+  --primary-soft: #14332f;
+  --primary-ink: #8ee0d3;
+  --on-primary: #04201c;
+  --brand-accent: #ff8a5c;
+  --brand-accent-soft: #3a2318;
+  --brand-accent-ink: #ffb594;
+  --on-brand-accent: #2b1305;
+  --cta: #c2410c;
+  --cta-hover: #9a3412;
+  --on-cta: #ffffff;
+  --highlight: #ffd23f;
+  --on-highlight: #2a2100;
+  --success: #34c47a;
+  --success-soft: #12342a;
+  --success-ink: #86e3b1;
+  --on-success: #04210f;
+  --warning: #f5b13d;
+  --warning-soft: #38290e;
+  --warning-ink: #ffd68f;
+  --on-warning: #2b1a00;
+  --danger: #f26d6d;
+  --danger-soft: #3a1919;
+  --danger-ink: #ffb4b4;
+  --on-danger: #2a0606;
+  --info: #5aa3f2;
+  --info-soft: #13283f;
+  --info-ink: #aacff9;
+  --on-info: #04152b;
+  --ring: #5acbbb;
+  --overlay: #000000b3;
+  --status-draft-bg: #243230;
+  --status-draft-fg: #c5d2cf;
+  --status-submitted-bg: #13283f;
+  --status-submitted-fg: #aacff9;
+  --status-payment-submitted-bg: #2a2146;
+  --status-payment-submitted-fg: #cdbdf5;
+  --status-under-review-bg: #38290e;
+  --status-under-review-fg: #ffd68f;
+  --status-waiting-for-client-bg: #3a2318;
+  --status-waiting-for-client-fg: #ffb594;
+  --status-in-progress-bg: #12332f;
+  --status-in-progress-fg: #8ee0d3;
+  --status-completed-bg: #12342a;
+  --status-completed-fg: #86e3b1;
+  --status-cancelled-bg: #3a1919;
+  --status-cancelled-fg: #ffb4b4;
+  --status-payment-verified-bg: #28340f;
+  --status-payment-verified-fg: #cfe58f;
+  /* Hero picture at night: glass cards (a see-through dark fill, no blur), flat teal circles, amber "In progress" and mint "Verified". Flat colors only: no gradient, blur, filter or glow. */
+  --hero-card: rgba(20, 45, 45, 0.7);
+  --hero-card-border: rgba(255, 255, 255, 0.14);
+  --hero-card-border-top: rgba(255, 255, 255, 0.28);
+  --hero-badge-bg: rgba(251, 191, 36, 0.16);
+  --hero-badge-fg: #fcd34d;
+  --hero-verified-fg: #a7f3d0;
+  --hero-check-bg: rgba(52, 211, 153, 0.18);
+  --hero-check-fg: #6ee7b7;
+  --hero-line-1: rgba(255, 255, 255, 0.16);
+  --hero-line-2: rgba(255, 255, 255, 0.16);
+  --hero-peach: #1e6b60;
+  --hero-teal: #2a8f82;
+  --hero-dot: #ffd23f;
+  /* The glass card is see-through, so the orange bar behind it would show as a muddy stripe. Hidden at night. */
+  --hero-bar: transparent;
+  /* Shadows are almost invisible on dark, so they are darker and a little stronger. */
+  --shadow-sm: 0 1px 2px #00000066, 0 1px 1px #00000040;
+  --shadow-md: 0 8px 24px #00000073, 0 2px 6px #00000059;
+  --shadow-lg: 0 24px 64px #0000008c, 0 4px 12px #00000066;
+}
+
+/* "dark:" in class names follows the data-theme attribute (set by the toggle), not only the phone or computer setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------- Section 3: shadcn/ui names point to our roles ---------- */
+:root {
+  --background: var(--surface);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary-foreground: var(--on-primary);
+  --secondary: var(--primary-soft);
+  --secondary-foreground: var(--primary-ink);
+  --muted: var(--surface-sunken);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--primary-soft);
+  --accent-foreground: var(--primary-ink);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--on-danger);
+  --input: var(--input-border);
+}
+
+@theme inline {
+  --color-background: var(--surface);
+  --color-foreground: var(--text);
+  --color-card: var(--card);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--text);
+  --color-primary-foreground: var(--on-primary);
+  --color-secondary: var(--primary-soft);
+  --color-secondary-foreground: var(--primary-ink);
+  --color-muted: var(--surface-sunken);
+  --color-muted-foreground: var(--text-muted);
+  --color-accent: var(--primary-soft);
+  --color-accent-foreground: var(--primary-ink);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--on-danger);
+  --color-border: var(--border);
+  --color-input: var(--input-border);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-ink: var(--primary-ink);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-accent-soft: var(--brand-accent-soft);
+  --color-brand-accent-ink: var(--brand-accent-ink);
+  --color-on-brand-accent: var(--on-brand-accent);
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+  --color-on-cta: var(--on-cta);
+  --color-highlight: var(--highlight);
+  --color-on-highlight: var(--on-highlight);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-success-ink: var(--success-ink);
+  --color-on-success: var(--on-success);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-ink: var(--warning-ink);
+  --color-on-warning: var(--on-warning);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-ink: var(--danger-ink);
+  --color-on-danger: var(--on-danger);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-info-ink: var(--info-ink);
+  --color-on-info: var(--on-info);
+  --color-overlay: var(--overlay);
+  --color-hero-card: var(--hero-card);
+  --color-hero-card-border: var(--hero-card-border);
+  --color-hero-card-border-top: var(--hero-card-border-top);
+  --color-hero-badge-bg: var(--hero-badge-bg);
+  --color-hero-badge-fg: var(--hero-badge-fg);
+  --color-hero-verified-fg: var(--hero-verified-fg);
+  --color-hero-check-bg: var(--hero-check-bg);
+  --color-hero-check-fg: var(--hero-check-fg);
+  --color-hero-line-1: var(--hero-line-1);
+  --color-hero-line-2: var(--hero-line-2);
+  --color-hero-teal: var(--hero-teal);
+  --color-hero-dot: var(--hero-dot);
+  --color-hero-bar: var(--hero-bar);
+  --color-status-draft-bg: var(--status-draft-bg);
+  --color-status-draft-fg: var(--status-draft-fg);
+  --color-status-submitted-bg: var(--status-submitted-bg);
+  --color-status-submitted-fg: var(--status-submitted-fg);
+  --color-status-payment-submitted-bg: var(--status-payment-submitted-bg);
+  --color-status-payment-submitted-fg: var(--status-payment-submitted-fg);
+  --color-status-under-review-bg: var(--status-under-review-bg);
+  --color-status-under-review-fg: var(--status-under-review-fg);
+  --color-status-waiting-for-client-bg: var(--status-waiting-for-client-bg);
+  --color-status-waiting-for-client-fg: var(--status-waiting-for-client-fg);
+  --color-status-in-progress-bg: var(--status-in-progress-bg);
+  --color-status-in-progress-fg: var(--status-in-progress-fg);
+  --color-status-completed-bg: var(--status-completed-bg);
+  --color-status-completed-fg: var(--status-completed-fg);
+  --color-status-cancelled-bg: var(--status-cancelled-bg);
+  --color-status-cancelled-fg: var(--status-cancelled-fg);
+  --color-status-payment-verified-bg: var(--status-payment-verified-bg);
+  --color-status-payment-verified-fg: var(--status-payment-verified-fg);
+}
+
+@theme {
+  /* Font: next/font sets --font-plus-jakarta on <html> (see src/app/fonts.ts) */
+  --font-sans: var(--font-plus-jakarta), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Type scale: size / line height. Weights: 400 and 700 only. */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.625rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.875rem;
+  --text-2xl: 1.875rem;
+  --text-2xl--line-height: 2.375rem;
+  --text-3xl: 2.5rem;
+  --text-3xl--line-height: 2.875rem;
+  --text-4xl: 3.5rem; /* home hero only */
+  --text-4xl--line-height: 3.75rem;
+
+  /* Spacing: 4 px base */
+  --spacing: 0.25rem;
+
+  /* Radius */
+  --radius-sm: 6px; /* checkbox, chips */
+  --radius-md: 10px; /* buttons, inputs, toasts */
+  --radius-lg: 16px; /* cards, dialogs on phone */
+  --radius-xl: 24px; /* big bento cards, modal */
+
+  /* Shadows (light, neutral) */
+  --shadow-sm: 0 1px 2px #0f1b1a14, 0 1px 1px #0f1b1a0a;
+  --shadow-md: 0 8px 24px #0f1b1a14, 0 2px 6px #0f1b1a0d;
+  --shadow-lg: 0 24px 64px #0f1b1a29, 0 4px 12px #0f1b1a14;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /*
+    Hero art motion (home page). Slow and gentle. Only "translate", "scale" and "rotate" change,
+    so the browser can run them on the graphics card and the page layout never moves.
+    Each shape sets its own distance with --dx, --dy and --ds. --k is 0.6 on phones, 1 on larger screens.
+    The negative time before "infinite" is the start delay: shapes begin at different points.
+    Components use these with the "motion-safe:" prefix, so people who ask for less motion see none.
+  */
+  --animate-hero-card-a: hero-drift 6s ease-in-out -1s infinite alternate;
+  --animate-hero-card-b: hero-drift 7s ease-in-out -4s infinite alternate;
+  --animate-hero-peach: hero-roam-a 14s ease-in-out -5s infinite;
+  --animate-hero-teal: hero-roam-b 12s ease-in-out -3s infinite;
+  /* The label slides into place first, then the icon pops in (8 s cycle). Neither uses opacity. */
+  --animate-hero-verified: hero-verified 8s ease-in-out infinite;
+  --animate-hero-check: hero-check 8s ease-in-out infinite;
+  --animate-hero-dot: hero-roam-c 12s ease-in-out -2s infinite;
+  /* Icon pops in after the text (same timing as the check), then keeps spinning. */
+  --animate-hero-icon: hero-check 8s ease-in-out infinite, hero-spin 1.6s linear infinite;
+  --animate-hero-spin: hero-spin 1.6s linear infinite;
+
+  /*
+    Loading placeholders. They stay invisible for the first 200 ms, then fade in. A fast page therefore
+    shows no gray flash at all, and a slow page shows a calm placeholder. The shimmer is a slow light band.
+  */
+  --animate-delayed-in: skeleton-in 200ms ease-out 200ms backwards;
+  --animate-skeleton:
+    skeleton-in 200ms ease-out 200ms backwards, skeleton-shimmer 1.8s ease-in-out 400ms infinite;
+
+  /* The thin bar at the top of the admin area while a page loads. It rushes to 60 % at once, then creeps toward
+     92 % while the server answers. When the page arrives it fills up and fades out. */
+  --animate-nav-progress: nav-progress 12s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  --animate-nav-progress-done: nav-progress-done 400ms ease-out forwards;
+
+  @keyframes nav-progress {
+    0% {
+      scale: 0 1;
+    }
+    12% {
+      scale: 0.6 1;
+    }
+    100% {
+      scale: 0.92 1;
+    }
+  }
+
+  @keyframes nav-progress-done {
+    from {
+      scale: 0.7 1;
+      opacity: 1;
+    }
+    60% {
+      scale: 1 1;
+      opacity: 1;
+    }
+    to {
+      scale: 1 1;
+      opacity: 0;
+    }
+  }
+
+  @keyframes skeleton-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes skeleton-shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+  @keyframes hero-drift {
+    from {
+      translate: 0 0;
+      scale: 1;
+    }
+    to {
+      translate: calc(var(--k, 1) * var(--dx, 0px)) calc(var(--k, 1) * var(--dy, 0px));
+      scale: var(--ds, 1);
+    }
+  }
+
+  /* The two circles follow a path with three stops, so their position clearly changes. */
+  @keyframes hero-roam-a {
+    0%,
+    100% {
+      translate: 0 0;
+      scale: 1;
+    }
+    33% {
+      translate: calc(var(--k, 1) * -16px) calc(var(--k, 1) * 10px);
+      scale: 1.04;
+    }
+    66% {
+      translate: calc(var(--k, 1) * -6px) calc(var(--k, 1) * 18px);
+      scale: 1.02;
+    }
+  }
+
+  /* The small yellow dot glides to the right along the top and comes back. It stays in the free space
+     above the first card and before the big orange circle, so it never covers text or other shapes. */
+  @keyframes hero-roam-c {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    33% {
+      translate: calc(var(--k, 1) * 60px) calc(var(--k, 1) * -8px);
+    }
+    66% {
+      translate: calc(var(--k, 1) * 110px) calc(var(--k, 1) * -4px);
+    }
+  }
+
+  @keyframes hero-roam-b {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    33% {
+      translate: calc(var(--k, 1) * 14px) calc(var(--k, 1) * -12px);
+    }
+    66% {
+      translate: calc(var(--k, 1) * 20px) calc(var(--k, 1) * 2px);
+    }
+  }
+
+  /* The label slides up 4 px into place at the start of each cycle. It NEVER changes opacity: text must always be
+     fully readable (the first version faded it to 0 and the labels looked "almost invisible" in screenshots). */
+  @keyframes hero-verified {
+    0%,
+    8% {
+      translate: 0 4px;
+    }
+    22%,
+    100% {
+      translate: 0 0;
+    }
+  }
+
+  /* The icon pops in after the label (small, big, normal). Scale only: no opacity, so it never disappears. */
+  @keyframes hero-check {
+    0%,
+    24% {
+      scale: 0.4;
+    }
+    36% {
+      scale: 1.2;
+    }
+    44%,
+    100% {
+      scale: 1;
+    }
+  }
+
+  @keyframes hero-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  /* Breakpoints */
+  --breakpoint-sm: 40rem; /* 640 */
+  --breakpoint-md: 48rem; /* 768 */
+  --breakpoint-lg: 64rem; /* 1024 */
+  --breakpoint-xl: 80rem; /* 1280 */
+}
+
+/* ---------- Base ---------- */
+/* People who ask their device for MORE contrast (a setting on phones and computers) get stronger text and borders. */
+@media (prefers-contrast: more) {
+  :root,
+  [data-theme="light"],
+  [data-theme="alt"],
+  :root[data-theme="dark"] {
+    --text-muted: var(--text);
+    --border: var(--input-border);
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-weight: 400;
+  }
+}
